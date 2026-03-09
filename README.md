@@ -1,23 +1,56 @@
-# Algorithmic Trading API 📈🤖
+# 📈 Algorithmic Trading & Portfolio Management API
 
-A robust, enterprise-grade backend microservice built with **Java** for algorithmic cryptocurrency trading. This project simulates live market trading using real-time data and automated decision-making engines.
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
 
-## 🛠️ Technology Stack & Architecture
-- **Language:** Java 17
-- **Database:** SQLite (Embedded DB for persistent balance tracking)
-- **External API:** [CoinGecko API](https://www.coingecko.com/en/api) via OkHttp & Gson
-- **Architecture:** Layered Multi-Tier Design (`Model` - `Repository` - `Service` - `Strategy`)
-- **Design Patterns:** Strategy Pattern (for easily swapping out Buy/Sell algorithms)
+A robust, backend-focused Java application designed to simulate algorithmic trading. It fetches real-time cryptocurrency market data and executes automated trades based on predefined, customizable strategies using Object-Oriented Programming principles.
 
-## ✨ Core Features
-- **Real-Time Market Data:** Fetches live cryptocoin prices (e.g., Bitcoin, Ethereum) directly from CoinGecko.
-- **Strategy Pattern Implementation:** Trading algorithms are abstracted into custom strategies (e.g., `PriceThresholdStrategy`), making the bot incredibly modular.
-- **Automated Trading Engine:** The `TradingBot` connects the user's wallet, live market data, and the selected strategy to make split-second "BUY", "SELL", or "HOLD" decisions.
-- **Database Persistence:** Real-time wallet balances are persistently saved to an SQLite database (`trading_bot.db`) using UPSERT logic. User accounts survive application restarts seamlessly.
+## 🚀 Key Features
+- **Real-Time Data Integration:** Connects to the CoinGecko API via `OkHttp` to fetch live market prices.
+- **Strategy Design Pattern:** Employs a flexible architecture where trading algorithms (e.g., Price Thresholds) can be swapped or added without modifying core logic.
+- **Persistent Data Storage:** Uses `SQLite` to manage user portfolios, balances, and track state across sessions.
+- **Audit Logging:** Automatically records all executed trades (BUY/SELL) into a local text file for transaction history analysis.
 
-## 🚀 How to Run
-1. Clone the repository.
-2. Build with Maven: `mvn clean install`
-3. Run the main class: `com.algorithmictrading.Main`
+## 🏗️ Architecture & Tech Stack
+- **Language:** Java (JDK 17+)
+- **Build Tool:** Maven
+- **Database:** SQLite (JDBC)
+- **HTTP Client:** OkHttp3
+- **JSON Parsing:** Google Gson
+- **Design Patterns:** Strategy Pattern, Singleton (Database Connection)
 
-*(This is an educational project demonstrating object-oriented programming, design patterns, and external API integration in Java.)*
+## ⚙️ Getting Started
+
+### Prerequisites
+Make sure you have Java and Maven installed on your system.
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/sarp-onaran/AlgorithmicTradingAPI.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd AlgorithmicTradingAPI
+   ```
+
+3. Build the project and install dependencies:
+   ```bash
+   mvn clean install
+   ```
+
+4. Run the main application:
+   ```bash
+   mvn exec:java -Dexec.mainClass="com.algorithmictrading.Main"
+   ```
+
+## 🧠 How The Strategy Works
+The bot currently uses a `PriceThresholdStrategy`.
+
+- If the current price drops below the defined **Buy Threshold**, the bot executes a **BUY** order.
+- If the price rises above the **Sell Threshold**, the bot executes a **SELL** order.
+- Otherwise, it **holds** the position.
+
+> Future plans include adding moving averages and RSI-based trading algorithms.
