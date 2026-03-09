@@ -3,6 +3,7 @@ package com.algorithmictrading.service;
 import com.algorithmictrading.model.User;
 import com.algorithmictrading.repository.DatabaseManager;
 import com.algorithmictrading.strategy.TradingStrategy;
+import com.algorithmictrading.utils.TradeLogger;
 
 public class TradingBot {
     private User user;
@@ -36,8 +37,11 @@ public class TradingBot {
                 user.setTotalBalance(user.getTotalBalance() - currentPrice);
                 System.out.println("🚀 PURCHASE SUCCESSFUL! Remaining balance: $" + user.getTotalBalance());
 
-                // NEWLY ADDED LINE: Update the database
+                // Update the database
                 DatabaseManager.saveOrUpdateUser(user.getId(), user.getUsername(), user.getTotalBalance());
+
+                // Log the trade to file
+                TradeLogger.logAction(targetCrypto, "BUY", currentPrice, user.getTotalBalance());
             } else {
                 System.out.println("⚠️ INSUFFICIENT BALANCE! Purchase could not be made.");
             }
@@ -45,8 +49,11 @@ public class TradingBot {
             user.setTotalBalance(user.getTotalBalance() + currentPrice);
             System.out.println("💰 SALE SUCCESSFUL! New balance: $" + user.getTotalBalance());
 
-            // NEWLY ADDED LINE: Update the database
+            // Update the database
             DatabaseManager.saveOrUpdateUser(user.getId(), user.getUsername(), user.getTotalBalance());
+
+            // Log the trade to file
+            TradeLogger.logAction(targetCrypto, "SELL", currentPrice, user.getTotalBalance());
         } else {
             System.out.println("⏳ Monitoring the market, no trade executed.");
         }
