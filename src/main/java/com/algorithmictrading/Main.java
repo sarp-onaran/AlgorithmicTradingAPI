@@ -3,7 +3,7 @@ package com.algorithmictrading;
 import com.algorithmictrading.model.User;
 import com.algorithmictrading.service.MarketDataService;
 import com.algorithmictrading.service.TradingBot;
-import com.algorithmictrading.strategy.PriceThresholdStrategy;
+import com.algorithmictrading.strategy.ScalpingStrategy;
 import com.algorithmictrading.strategy.TradingStrategy;
 import com.algorithmictrading.repository.DatabaseManager;
 
@@ -35,8 +35,8 @@ public class Main {
         // 3. Set up Services and Strategy
         MarketDataService marketService = new MarketDataService();
 
-        // WARNING: Threshold set very high (100,000) to force an immediate BUY action!
-        TradingStrategy strategy = new PriceThresholdStrategy(100000.0, 150000.0);
+        // New strategy: Base price $68,000. BUY if drops 1%, SELL if rises 1.5%.
+        TradingStrategy strategy = new ScalpingStrategy(68000.0, 1.0, 1.5);
         TradingBot bot = new TradingBot(sarp, marketService, strategy, "bitcoin");
 
         // 4. Trigger the Trade Engine
