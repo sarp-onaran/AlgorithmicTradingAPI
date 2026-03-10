@@ -29,7 +29,14 @@ public class DatabaseManager {
         }
     }
 
-    // Adds the user to the database or updates if they exist
+    /**
+     * Inserts a new user or updates the balance of an existing user in the database.
+     * Uses SQLite UPSERT logic (ON CONFLICT DO UPDATE).
+     *
+     * @param id The unique identifier of the user.
+     * @param username The username of the user.
+     * @param balance The new balance to be saved.
+     */
     public static void saveOrUpdateUser(String id, String username, double balance) {
         // If user exists, update balance; if not, create new record (SQLite UPSERT
         // logic)
@@ -45,7 +52,12 @@ public class DatabaseManager {
         }
     }
 
-    // Fetches the current balance from the database
+    /**
+     * Retrieves the current balance of a specific user from the database.
+     *
+     * @param id The unique identifier of the user.
+     * @return The user's balance, or -1.0 if the user is not found.
+     */
     public static double getUserBalance(String id) {
         String sql = "SELECT balance FROM users WHERE id = '" + id + "';";
         try (Connection conn = DriverManager.getConnection(URL);
